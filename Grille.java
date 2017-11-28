@@ -1,3 +1,6 @@
+/*
+ * @author Flamant Antonin - Daspremont Elodie | Serie 4
+ */
 package flechette;
 
 public abstract class Grille {
@@ -27,7 +30,11 @@ public abstract class Grille {
 	 * @throws IllegalArgumentException : joueur ou numero invalide(s)
 	 */
 	public void ajouterJoueur(Joueur joueur, int numero){
-		// TODO
+		if (numero < 1) throw new IllegalArgumentException("Numero invalide");
+		if (numero > tableJoueurs.length) throw new IllegalArgumentException("Numero invalide");
+		if (joueur == null) throw new IllegalArgumentException("Joueur invalide");
+		//if (tableJoueurs[numero-1] != null) throw new IllegalArgumentException("Le numero est deja prit");
+		tableJoueurs[numero-1] = joueur;
 	}
 	
 	/**
@@ -37,8 +44,9 @@ public abstract class Grille {
 	 * @throws IllegalArgumentException : numero invalide 
 	 */
 	public Joueur donnerJoueur(int numero){
-		// TODO
-		return null;
+		if (numero < 1) throw new IllegalArgumentException("Numero invalide");
+		if (numero > tableJoueurs.length) throw new IllegalArgumentException("Numero invalide");
+		return tableJoueurs[numero-1];
 	}
 	
 	public String toString(){
@@ -50,13 +58,29 @@ public abstract class Grille {
 	}
 	
 	/**
-	 * classement des joueurs (du meilleur au moins bon
+	 * classement des joueurs (du meilleur au moins bon)
 	 * @return une table de joueurs
 	 */
 	public Joueur[] classement(){		
-		// TODO
-		return null;
-		// Utilisez la methode estMieuxClasse() pour classer les joueurs
-	}	
-	
+		Joueur[] tClasse = new Joueur[tableJoueurs.length];
+		//Copie de la table
+		for (int i = 0; i < tableJoueurs.length; i++) {
+			tClasse[i] = tableJoueurs[i];
+		}
+		//Classement par selection
+		for (int i = 0; i < tClasse.length; i++) {
+			Joueur meilleur = tClasse[i];
+			int index = i;
+			for (int j = i+1; j < tClasse.length; j++){
+				if (tClasse[j].estMieuxClasse(tClasse[i])){
+					meilleur = tClasse[j];
+					index = j;
+				}
+			}
+			Joueur temp = tClasse[i];
+			tClasse[i] = tClasse[index];
+			tClasse[index] = temp;
+		}
+		return tClasse;
+	}
 }
