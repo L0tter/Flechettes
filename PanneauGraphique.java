@@ -106,7 +106,9 @@ public class PanneauGraphique extends JFrame implements Panneau {
 
 	@Override
 	public Flechette viserEtLancerFlechette() {
-		return flechetteGUI.nextFlechette();
+		Flechette f = flechetteGUI.nextFlechette();
+		classementPanel.setLastFlechette(f);
+		return f;
 	}
 
 	@Override
