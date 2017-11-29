@@ -1,4 +1,4 @@
-/*
+/**
  * @author Flamant Antonin - Daspremont Elodie | Serie 4
  */
 package flechette;

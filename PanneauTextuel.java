@@ -1,5 +1,5 @@
 /**
- * @author Flamant Antonin - Daspremont Elodie, Serie 4
+ * @author Flamant Antonin - Daspremont Elodie | Serie 4
  */
 package flechette;
 
@@ -19,8 +19,10 @@ public class PanneauTextuel implements Panneau{
 	public Flechette viserEtLancerFlechette() {
 		// Pensez a utiliser la methode lireEntierComprisEntre() de la classe UtilitairesJeux
 		System.out.println("Votre flechette à la main, vous fixez intesément la cible, concentré.");
-		int zone=UtilitairesJeux.lireEntierComprisEntre(0, 50, "Quelle Zone visez-vous ? Entrez un nombre entre 0 et 50");
-		int section=UtilitairesJeux.lireEntierComprisEntre(1, 20, "Quelle secteur visez-vous ? 1,5 ou 20 ?");
+		System.out.println("Quelle Zone visez-vous ? Entrez un nombre entre 0 et 25.");
+		int zone=UtilitairesJeux.lireEntierComprisEntre(1, 25, "Inférieur à 0 ou supérieur à 50 ?!");
+		System.out.println("Quelle Zone visez-vous ? Entrez un nombre entre 1 et 20.");
+		int section=UtilitairesJeux.lireEntierComprisEntre(1, 20, "Inférieur à 1 ou supérieur à 20 ?!");
 		Flechette arrow = new Flechette(section, zone);
 		
 		return arrow;

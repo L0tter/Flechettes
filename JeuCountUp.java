@@ -5,12 +5,14 @@ package flechette;
 
 import java.util.Scanner;
 
+import ui.ClassementPanel;
+
 public class JeuCountUp {
 
 	private static Scanner scanner = new Scanner(System.in);
 	private static GrilleCountUp grille;
 	private static Panneau panneau;
-	private static String auteurs = " les auteurs "; // mettez vos noms ici!
+	private static String auteurs = " Flamant Antonin && Daspremont Elodie "; // mettez vos noms ici!
 
 	public static void main(String[] args) {
 
@@ -19,6 +21,10 @@ public class JeuCountUp {
 		// configuration du jeu
 		// A ne pas modifier
 
+		
+		/* Fournit
+		 Création des joueurs et remplissage de la grille - taille de la grille = nombre de joueurs
+		*/
 		System.out.print("Entrez le nombre de joueurs : ");
 		int nbreJoueurs = UtilitairesJeux.lireEntierPositif("Le nombre de joueurs est de minimum 1");
 		grille = new GrilleCountUp(nbreJoueurs);
@@ -31,6 +37,9 @@ public class JeuCountUp {
 			grille.ajouterJoueur(joueur, numJoueur);
 		}
 
+		/* Fournit
+		  Nombre de Tours et choix de l'interface
+		 */
 		System.out.print("Entrez le nombre de tours : ");
 		int nbreTours = UtilitairesJeux.lireEntierPositif("Le nombre de tours est de minimum 1");
 
@@ -49,27 +58,35 @@ public class JeuCountUp {
 		panneau.afficherMessageDebutJeu();
 		panneau.afficherJoueurs(grille.classement());
 		
-		// TODO
-		// appel nbreTours x la methode faireTour()
+		System.out.println("Il y aura donc " + nbreTours + " tours. Have fun!");
+		for(int i=1; i<=nbreTours ; i++) { // Faire plusieur Tours
+			panneau.afficherDebutTour(i);
+			faireTour(i);
+			panneau.afficherFinTour(i);
+		}
+		panneau.afficherMessageFinJeu();
 
 	}
 
 	private static void faireTour(int numeroTour) {
-		// TODO
+		for (int j = 1; j <= grille.nombreJoueurs(); j++){
+			panneau.afficherJoueurDebutTour(grille.donnerJoueur(j), numeroTour);
+			JeuCountUp.faireVolee(grille.donnerJoueur(j));
+			grille.classement();
+			panneau.afficherJoueurFinTour(grille.donnerJoueur(j), numeroTour);
+		}
 		// appel nbreJoueurs x la methode faireVolee()
 	}
 
 	
 	private static void faireVolee(JoueurCountUp joueur) {
-		panneau.afficherJoueurDebutTour(joueur, numeroTour); // TODO
-		int fleche=1;
-		while(fleche<=3) {
-			panneau.afficherJoueurDebutFlechette(joueur, fleche);
+		int fleche=0;
+		while(fleche<3) {
+			panneau.afficherJoueurDebutFlechette(joueur, fleche); // Vous aller lancer la flechette
 			Flechette arrow = panneau.viserEtLancerFlechette();
-			joueur.setPoints(arrow.donnerPoints());
+			joueur.ajouterPoints(arrow.donnerPoints());
 			fleche++;
-			panneau.afficherJoueurFinFlechette(joueur, fleche);
+			panneau.afficherJoueurFinFlechette(joueur, fleche); // Vous avez lancé la flechette
 		}
-		panneau.afficherJoueurFinTour(joueur, numeroTour);
 	}
 }

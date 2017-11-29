@@ -32,7 +32,7 @@ public class UtilitairesJeux {
 	public static int lireEntierComprisEntre(int min, int max, String message){
 		int entier = scanner.nextInt();
 		while(entier<min||entier>max){
-			System.out.println(message);
+			System.out.println(message); // Message SSI le nombre rentré est <min et >max
 			entier = scanner.nextInt();
 		}
 		return entier;
