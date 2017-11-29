@@ -20,7 +20,7 @@ public class PanneauTextuel implements Panneau{
 		// Pensez a utiliser la methode lireEntierComprisEntre() de la classe UtilitairesJeux
 		System.out.println("Votre flechette à la main, vous fixez intesément la cible, concentré.");
 		System.out.println("Quelle Zone visez-vous ? Entrez un nombre entre 0 et 25.");
-		int zone=UtilitairesJeux.lireEntierComprisEntre(1, 25, "Inférieur à 0 ou supérieur à 25 ?!");
+		int zone=UtilitairesJeux.lireEntierComprisEntre(1, 50, "Inférieur à 0 ou supérieur à 50 ?!");
 		System.out.println("Quelle section visez-vous ? Entrez un nombre entre 1 et 20.");
 		int section=UtilitairesJeux.lireEntierComprisEntre(1, 20, "Inférieur à 1 ou supérieur à 20 ?!");
 		Flechette arrow = new Flechette(section, zone);
