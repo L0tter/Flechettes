@@ -1,4 +1,4 @@
-/*
+/**
  * @author Flamant Antonin - Daspremont Elodie | Serie 4
  */
 package flechette;
@@ -61,7 +61,8 @@ public abstract class Grille {
 	 * classement des joueurs (du meilleur au moins bon)
 	 * @return une table de joueurs
 	 */
-	public Joueur[] classement(){		
+	public Joueur[] classement(){
+		
 		Joueur[] tClasse = new Joueur[tableJoueurs.length];
 		//Copie de la table
 		for (int i = 0; i < tableJoueurs.length; i++) {
@@ -72,7 +73,7 @@ public abstract class Grille {
 			Joueur meilleur = tClasse[i];
 			int index = i;
 			for (int j = i+1; j < tClasse.length; j++){
-				if (tClasse[j].estMieuxClasse(tClasse[i])){
+				if (tClasse[j].estMieuxClasse(tClasse[index])){
 					meilleur = tClasse[j];
 					index = j;
 				}
@@ -82,5 +83,7 @@ public abstract class Grille {
 			tClasse[index] = temp;
 		}
 		return tClasse;
+		
 	}
+	
 }

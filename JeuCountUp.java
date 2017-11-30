@@ -5,6 +5,8 @@ package flechette;
 
 import java.util.Scanner;
 
+import ui.ClassementPanel;
+
 public class JeuCountUp {
 
 	private static Scanner scanner = new Scanner(System.in);
@@ -62,6 +64,19 @@ public class JeuCountUp {
 			faireTour(i);
 			panneau.afficherFinTour(i);
 		}
+		
+		Joueur[] classement = grille.classement();
+		int gagnants=0;
+		/* 
+		 * Pour Désigner des ex-aequo : mis en commentaire car ClassementPanel ne gere pas l'affichage simultané de plusieurs gagnants
+		 * 
+		while(classement[gagnants].getPoints()==classement[gagnants+1].getPoints()) {
+			gagnants++;
+		}
+		*/
+		for(int i=0;i<=gagnants && i<classement.length;i++) { // Prevu pour l'affichage eventuel de plusieurs gagnants. Vérification inutile si un seul -> panneau.afficherGagnant(classement[0]);
+			panneau.afficherGagnant(classement[i]);
+		}
 		panneau.afficherMessageFinJeu();
 
 	}
@@ -70,19 +85,17 @@ public class JeuCountUp {
 		for (int j = 1; j <= grille.nombreJoueurs(); j++){
 			panneau.afficherJoueurDebutTour(grille.donnerJoueur(j), numeroTour);
 			JeuCountUp.faireVolee(grille.donnerJoueur(j));
-			grille.classement();
 			panneau.afficherJoueurFinTour(grille.donnerJoueur(j), numeroTour);
+			panneau.afficherJoueurs(grille.classement());
 		}
-		// appel nbreJoueurs x la methode faireVolee()
 	}
-
 	
 	private static void faireVolee(JoueurCountUp joueur) {
-		int fleche=1;
-		while(fleche<=3) {
+		int fleche=0;
+		while(fleche<3) {
 			panneau.afficherJoueurDebutFlechette(joueur, fleche); // Vous aller lancer la flechette
 			Flechette arrow = panneau.viserEtLancerFlechette();
-			joueur.setPoints(arrow.donnerPoints());
+			joueur.ajouterPoints(arrow.donnerPoints());
 			fleche++;
 			panneau.afficherJoueurFinFlechette(joueur, fleche); // Vous avez lancé la flechette
 		}
