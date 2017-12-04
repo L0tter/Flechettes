@@ -1,0 +1,46 @@
+Cut Throat Cricket
+
+Gagnant
+	ferme les valeurs de 15à20
+		selon la pondération des zones, touche 3 x chaque valeur
+		ainsi que 3 centres
+	Endeans le nombre de tour
+	A le moins de point parmis ceux qui remplissent les conditions.
+
+Le joueur à un tableau qui retient le nombre de fois qu'il a marqué dans une valeur entre 15->20 (+ le bull's eye)
+Le joueur a un boolean un retient s'il a tout fermé ou non pour éviter des vérifications inutiles
+
+
+for(nombre de tour && pasdeGagnant){
+	for(chaque joueur){
+		faireVolée{
+			lancerflechette
+			si dans zone 15->20 / bulle
+				incrementer compteur de la zone selon pondération
+				si compteur > 3
+					faire perdre points aux adversaire 
+						for(grille joueur)
+							si joueur a tout fermé
+								pas gagner points
+
+							Sinon regarder à l'indice du bon compteur
+								si pas >3
+									faire gagner point
+			for(grille)
+				var1 qui retient le joueur qui a tout fermé avec le moins de points
+				var2 qui retient le joueur avec le moins de points tout cours
+				si var1=var2 -> on a un gagnant
+
+		}
+
+	}
+}
+
+
+
+découpe en méthode
+faireTour
+	faireVolée
+		incrementeZone
+		mallusAdversaires(secteur : int)
+		finJeu():boolean (de la grille)

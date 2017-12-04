@@ -1,0 +1,39 @@
+JeuXX1
+
+Initier le jeu
+
+faireUnTour(tant que nombre de tour non dépassé && pas de gagnant){
+	
+	fairevolee(){
+		verifier que la flechette est necessaire(encore flechette && points coherents) -> appel de flechette recommandée
+		Si Oui, lancerflechette()
+		Si Non, sortir de la volee
+	}
+	modifier les points du joueur
+		si dernière flechette pas double : pas de modification des points
+	afficher le classement
+}
+
+Y a-t-il un gagnant(selon le nombre de tour et le score)?
+	Si oui, le declarer
+	Sinon, sincères condoléances
+
+Finir le jeu
+
+
+flechetteRecommandee()
+	return null
+		Score nécessaire dépassé // Le joueur a cassé sa volée
+		Le joueur tombe à 1
+	
+
+	Le plus grand score possible en zone double de manière tomber pile sur 0 ou au moins de ne pas tomber à 1
+		//Seulement zone 2 ou zone double centre aussi ?
+		
+		// Pour zone2
+		for(int secteur=20;secteur>0;secteur--){
+			if((PointsAMarquer/)-(2*secteur) != 1) && ((PointsAMarquer/)-(2*secteur) >= 0) ){
+				return new flechette(Zone2, secteur);
+			}
+		}
+		return null // Si on a un return null ça signifie que ce joueur ne peut plus gagner.
