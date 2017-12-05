@@ -1,3 +1,6 @@
+/**
+ * @author Flamant Antonin - Daspremont Elodie | Serie 4
+ */
 package flechette;
 
 public class JoueurXX1 extends Joueur {

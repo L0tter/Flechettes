@@ -85,7 +85,7 @@ public class JeuXX1 {
 			}
 		}
 		panneau.afficherFinTour(numTour);
-	} //TODO
+	}
 	
 	public static void faireVolee(JoueurXX1 joueur) {
 		boolean jouer = joueur.getPoints()!=1; // Si points == 1 : ne vaut pas la peine de jouer 
