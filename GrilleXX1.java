@@ -10,10 +10,25 @@ public class GrilleXX1 extends Grille {
 		return (JoueurXX1)super.donnerJoueur(numero);
 	}
 	
-	public Joueur[] classement() {
-		return new Joueur[0];
+	public boolean tousA1(){
+		for (int i = 1; i <= nombreJoueurs(); i++) {
+			if (donnerJoueur(i).getPoints() != 1 ) return false;
+		}
+		return true;
 	}
-	// TODO : overrride classement : ce n'est pas la meme chose ici.
-	// Celui qui a le moins de points > celui qui en a le plus
-	// Sauf si 1 : dernier car ne peut plus gagner -> Ces joueurs là ont un attribut "toujoursEnCourse" FALSE
+	
+	public JoueurXX1 donnerGagnant(){
+		if (!(tousA1())){
+			for (int i = 1; i <= nombreJoueurs(); i++) {
+				if (donnerJoueur(i).getPoints() == 0 ) return donnerJoueur(i);
+			}
+		}
+		return null;
+	}
+	
+	public boolean finJeu(){
+		if (tousA1()) return true;
+		if (donnerGagnant() != null) return true;	
+		return false;
+	}
 }

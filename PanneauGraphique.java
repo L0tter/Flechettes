@@ -145,7 +145,7 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	    }
 
 	public static PanneauGraphique createPanneauGraphique (String nomDuJeu, String about, int nombreJoueur) {
-		int size = 800;
+		int size = 600;
 		FlechetteGUI cible = new FlechetteGUI(size,size, Thread.currentThread());
     	final PanneauGraphique frame = new PanneauGraphique(nomDuJeu, about, nombreJoueur, cible);
 

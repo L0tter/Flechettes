@@ -1,3 +1,6 @@
+/**
+ * @author Flamant Antonin - Daspremont Elodie | Serie 4
+ */
 package flechette;
 import java.util.Scanner;
 
@@ -48,31 +51,72 @@ public class JeuXX1 {
 		
 		
 		// DEBUT JEU
+		panneau.afficherMessageDebutJeu();
+		panneau.afficherJoueurs(grille.classement());
+		
+		System.out.println("Il y aura donc " + nbreTours + " tours. Vous commencez à " + capital + " points. Have fun!");
+		
+		for(int i=1; i<=nbreTours ; i++) { // Faire plusieur Tours
+			panneau.afficherDebutTour(i);
+			faireTour(i);
+			panneau.afficherFinTour(i);
+		}
+		panneau.afficherGagnant(grille.donnerGagnant());
+		panneau.afficherMessageFinJeu();
 	}
 	public static void faireTour(int numTour) {
-		//invoque faireVolee pour chaque joueur qui est toujours en course
-		// si la dernière fléchette jouée est un double
-			//Modifier les points
-		// aficcher le classement
-		
-	} //TODO
-	
-	public static void faireVolee() {
-		// Si a encore des fléchettes
-		// Doit vérifier si la fléchette est nécessaire
-			// (a encore des fléchette && a des points cohérent ( pas 1 ni négatifs ) )
-		// Montre la fléchette recommandée. Si null -> ce joueur ne peut plus gagner
-		// Doit permettre de transmettre si la dernière fléchette ->jouée<- (pas avortée) était un double
-	} //TODO
-	
-	public static Flechette flechetteRecommandee(int pointsAMarquer /*Issu du joueur*/) {
-		
-		// Si on ne considère double que la Zone 2 --> Et pour the bull's eye ? Compte-il comme une zone double ?
-		for(int secteur=20;secteur>0;secteur--){
-			if((pointsAMarquer)-(2*secteur) != 1 && ((pointsAMarquer)-(2*secteur) >= 0) ){
-				return new Flechette(secteur, 2);
+		panneau.afficherDebutTour(numTour);
+		for (int i = 1; i <= grille.nombreJoueurs(); i++) {
+			if (grille.donnerJoueur(i).getPoints()!=1){
+				panneau.afficherJoueurDebutTour(grille.donnerJoueur(i), numTour);
+				faireVolee(grille.donnerJoueur(i));
+				if (grille.finJeu()){
+					if(grille.tousA1()){
+						panneau.afficherMessageWarning("Tout le monde a perdu.");
+						panneau.afficherGagnant(null);
+					}else{
+						panneau.afficherGagnant(grille.donnerGagnant());
+					}
+					panneau.afficherFinTour(numTour);
+					panneau.afficherMessageFinJeu();
+				}
+				panneau.afficherJoueurFinTour(grille.donnerJoueur(i), numTour);
+				panneau.afficherJoueurs(grille.classement());
 			}
 		}
-		return null; // Si on a un return null ça signifie que ce joueur ne peut plus gagner.
-	}//TODO
+		panneau.afficherFinTour(numTour);
+	} //TODO
+	
+	public static void faireVolee(JoueurXX1 joueur) {
+		boolean jouer = joueur.getPoints()!=1; // Si points == 1 : ne vaut pas la peine de jouer 
+		int sumMarked=0; // totalise les flechettes
+		boolean wasDouble;
+		// Si a encore des fléchettes
+		for(int f=1;f<=3 && joueur.getPoints()>0 && jouer;f++) {	// Lancer des flechette jusqu'a la dernière ou jusqu'a tomber en négatif
+			Flechette recom = joueur.flechetteRecommandee(joueur.getPoints()-sumMarked);
+			panneau.afficherRecommandationPourJoueur(joueur, recom);
+			
+			panneau.afficherJoueurDebutFlechette(joueur, f);
+			Flechette arrow = panneau.viserEtLancerFlechette();
+			
+			if((joueur.getPoints()-(sumMarked+arrow.donnerPoints())<0) ) {jouer=false;} // Si les points tombent en negatif le joueur casse sa volée
+			sumMarked+=arrow.donnerPoints();
+			
+			if(arrow.getZone()==2) {wasDouble=true;}
+			else {wasDouble=false;}
+			
+			if(wasDouble && (joueur.getPoints()-sumMarked)==0) { // La dernière flechette est un double et a permi d'arriver a 0
+				//Conditions de fin de jeu
+				joueur.retirerPoints(sumMarked);
+				jouer=false; // Ne joue plus : responsabilité faireTour de rechercher et afficher gagnant.
+			}
+			if(f==3 && wasDouble && jouer && joueur.getPoints()>0) { // Décrementation des points, le jeu continue.
+				joueur.retirerPoints(sumMarked);
+			}
+			panneau.afficherJoueurFinFlechette(joueur, f);
+		}
+		
+	}
+	
+
 }
