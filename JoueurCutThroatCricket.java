@@ -4,12 +4,11 @@
 package flechette;
 
 public class JoueurCutThroatCricket extends Joueur {
-	private boolean zonesFermees;
+
 	private int[] zones;
 		// [15,16,17,18,19,20,bull(25)]
-	public JoueurCutThroatCricket(String nom, int points) {
-		super(nom, points);
-		this.zonesFermees=false;
+	public JoueurCutThroatCricket(String nom) {
+		super(nom);
 		this.zones=new int[7];
 	}
 

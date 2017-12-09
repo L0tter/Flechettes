@@ -29,14 +29,14 @@ public class JeuCutThroatCricket {
 			for (int numJoueur = 1; numJoueur <= nbreJoueurs; numJoueur++) {
 				System.out.print("Entrez le nom du joueur " + numJoueur + " : ");
 				String nomJoueur = UtilitairesJeux.lireStringNonVide("Le nom doit contenir au moins une lettre");
-				JoueurCutThroatCricket joueur = new JoueurCutThroatCricket(nomJoueur,0);
+				JoueurCutThroatCricket joueur = new JoueurCutThroatCricket(nomJoueur);
 				grille.ajouterJoueur(joueur, numJoueur);
 			}
 
 			/* Fournit
 			  Nombre de Tours et choix de l'interface
 			 */
-			System.out.print("Entrez le nombre de tours : ");
+			System.out.print("Entrez le nombre de tours : " + "\n Soyez toutefois cohérent, il est impossible de gagner en moins de 7 lancers, soit 3 Tours. A vos risques et périls... ");
 			int nbreTours = UtilitairesJeux.lireEntierPositif("Le nombre de tours est de minimum 1");
 
 			System.out.print("Voulez-vous utiliser une interface graphique?(O/N) : ");
@@ -56,10 +56,16 @@ public class JeuCutThroatCricket {
 			
 			System.out.println("Il y aura donc " + nbreTours + " tours.");
 			
-			for(int i=1; i<=nbreTours ; i++) { // Faire plusieur Tours
+			boolean gagnant=false;
+			for(int i=1; i<=nbreTours && !gagnant; i++) { // Faire plusieur Tours
 				panneau.afficherDebutTour(i);
 				faireTour(i);
+				panneau.afficherJoueurs(grille.classement());
 				panneau.afficherFinTour(i);
+				
+				if(grille.finJeu()) {
+					gagnant=true;
+				}
 			}
 			if(grille.donnerGagnant()==null) {
 				System.out.print("Pas de gagnant, bande de looser!");
@@ -70,22 +76,25 @@ public class JeuCutThroatCricket {
 			panneau.afficherMessageFinJeu();
 		}
 	public static void faireTour(int numeroTour) {
-		for(int i=1;i<=numeroTour;i++) {
-			panneau.afficherDebutTour(i);
-			for(int j=1;j<=grille.nombreJoueurs();j++) {
-				panneau.afficherJoueurDebutTour(grille.donnerJoueur(j), i);
+		boolean gagnant=grille.finJeu();
+		
+			panneau.afficherDebutTour(numeroTour);
+			for(int j=1;j<=grille.nombreJoueurs() && !gagnant;j++) {
+				panneau.afficherJoueurDebutTour(grille.donnerJoueur(j), numeroTour);
 				faireVolee(grille.donnerJoueur(j));
-				panneau.afficherJoueurFinTour(grille.donnerJoueur(j), i);
+				panneau.afficherJoueurFinTour(grille.donnerJoueur(j), numeroTour);
 				//Verifier conditions de victoires globales
 				if(grille.finJeu()) {
+					panneau.afficherJoueurs(grille.classement());
+					gagnant=true;
 					panneau.afficherGagnant(grille.donnerGagnant());
 					panneau.afficherMessageFinJeu();
 				}
 			}
-			panneau.afficherFinTour(i);
+			panneau.afficherFinTour(numeroTour);
 			panneau.afficherJoueurs(grille.classement());
-		}
-	}//TODO
+		
+	}
 	public static void faireVolee(JoueurCutThroatCricket joueur) {
 		for(int f=1; f<=3;f++) {
 			panneau.afficherJoueurDebutFlechette(joueur, f);
@@ -94,8 +103,8 @@ public class JeuCutThroatCricket {
 			if(secteurToHit(arrow.getSecteur())) { 
 			// SI le secteur est 15,16,17,18,19,20,25
 				if(joueur.estFerme(arrow.getSecteur())) {
-				// Si secteur ferme, il inflige mallus
-				// Ne retire pas de points au joueur
+				// Si secteur est ferme au prealable, il inflige mallus
+					// Ne donne pas de points au joueur
 					infligerMallus(arrow);
 				}
 				else {
