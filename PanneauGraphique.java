@@ -95,6 +95,7 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	public void afficherJoueurFinFlechette(Joueur joueur, int essai) {
 		classementPanel.afficherJoueurFinFlechette(joueur, essai);
 		afficherMessageInfo("");
+		afficherMessageWarning("");
 	}
 
 	@Override
@@ -122,12 +123,29 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	}
 
 	@Override
-	public void afficherRecommandationPourJoueur(Joueur joueur, Flechette flechetteRecommandee) {
+	public void afficherRecommandationPourJoueur(Joueur joueur, Flechette[] flechetteRecommandee) {
 		if (flechetteRecommandee==null)
 			return;
 		playRecommandation();
 		flechetteGUI.afficherRecommandationPourJoueur(joueur, flechetteRecommandee);
-		afficherMessageInfo(joueur.getNom()+": visez le secteur "+flechetteRecommandee.getSecteur()+"-zone "+flechetteRecommandee.getZone()+" pour gagner!");
+		String message = joueur.getNom()+": pour gangner, visez";
+		if (flechetteRecommandee.length==1)
+			message +=" le secteur";
+		else
+			message+= " un des secteurs: ";
+		int nbNullFlechette = 0;
+		for (Flechette f: flechetteRecommandee) {
+			if (f==null) {
+				nbNullFlechette++;
+				continue;
+			}
+			message += f.toString().replace("[secteur,zone]=", "");
+			message += /*"["+f.getSecteur()+","+f.getSecteur()+"]"+*/",";
+		}
+		if (nbNullFlechette==flechetteRecommandee.length)
+			return;
+		message = message.substring(0, message.length()-1)+".";
+		afficherMessageInfo(message);
 	}
 	
 	 private void addComponentsToPane(Container pane) {
@@ -137,8 +155,8 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	            return;
 	        }
 	                
-	        pane.add(infoWarnPanel, BorderLayout.PAGE_START);
-	        pane.add(dashboardPanel, BorderLayout.PAGE_END);
+	        pane.add(infoWarnPanel, BorderLayout.PAGE_END);
+	        pane.add(dashboardPanel, BorderLayout.PAGE_START);
 	        pane.add(flechetteGUI, BorderLayout.CENTER);
 	        pane.add(classementPanel, BorderLayout.LINE_END);
 	        
@@ -148,7 +166,7 @@ public class PanneauGraphique extends JFrame implements Panneau {
 		int size = 800;
 		FlechetteGUI cible = new FlechetteGUI(size,size, Thread.currentThread());
     	final PanneauGraphique frame = new PanneauGraphique(nomDuJeu, about, nombreJoueur, cible);
-
+    	cible.setPanneauGraphique(frame);
 		EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -178,6 +196,8 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	}
 	private void playClip( Clip clip )
 	{
+		if (clip==null)
+			return;
 	    if( clip.isRunning() ) clip.stop();
 	            clip.setFramePosition( 0 );
 	    clip.start();
@@ -202,7 +222,7 @@ public class PanneauGraphique extends JFrame implements Panneau {
 	    }
 	    catch( Exception e )
 	    {
-	        e.printStackTrace();
+	    	System.out.println("Erreur: "+e.getMessage());
 	    }
 
 	    return in;

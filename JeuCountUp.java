@@ -86,6 +86,7 @@ public class JeuCountUp {
 			panneau.afficherJoueurDebutTour(grille.donnerJoueur(j), numeroTour);
 			JeuCountUp.faireVolee(grille.donnerJoueur(j));
 			panneau.afficherJoueurFinTour(grille.donnerJoueur(j), numeroTour);
+			panneau.afficherJoueurs(grille.classement());
 		}
 	}
 	

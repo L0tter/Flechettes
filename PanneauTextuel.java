@@ -103,9 +103,9 @@ public class PanneauTextuel implements Panneau{
 	}	
 
 	@Override
-	public void afficherRecommandationPourJoueur(Joueur joueur, Flechette flechetteGagnante) {
-		System.out.println(joueur.getNom() + " ! Pour gagner, vous devez lancer une fléchette en zone " + flechetteGagnante.getZone() + " et en secteur " + flechetteGagnante.getSecteur() + ", afin de gagner " + flechetteGagnante.donnerPoints() + " points.");		
+	public void afficherRecommandationPourJoueur(Joueur joueur, Flechette[] flechetteRecommandee) {
+		// TODO Auto-generated method stub
+		
 	}
-	
 
 }

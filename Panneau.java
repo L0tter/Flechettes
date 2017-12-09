@@ -5,6 +5,7 @@ public interface Panneau {
 	void afficherMessageFinJeu();
 	void afficherJoueurDebutTour(Joueur joueur, int numeroTour);
 	void afficherJoueurFinTour(Joueur joueur, int numeroTour);
+//	void afficherGagniantEtPerdants(Joueur gagnant, ArrayList<Joueur> listPerdants);
 	void afficherGagnant(Joueur gagnant);
 	void afficherJoueurs(Joueur[] joueurs);
 	void afficherDebutTour(int numeroTour);
@@ -15,5 +16,5 @@ public interface Panneau {
 	Flechette viserEtLancerFlechette();
 	void afficherMessageInfo(String message);
 	void afficherMessageWarning(String message);
-	void afficherRecommandationPourJoueur(Joueur joueur, Flechette flechetteGagnante);
+	void afficherRecommandationPourJoueur(Joueur joueur, Flechette[] flechetteRecommandee);
 }
